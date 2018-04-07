@@ -61,30 +61,3 @@ df <- df %>%
     filter(is.na(normSalary) == F)
 
 ```
-
-
-
-
-```{r}
-
-# Get top 100 cities 
-cities <- df %>%
-    select(city, stateProvince) %>%
-    group_by(city) %>%
-    summarise(n = n()) %>%
-    arrange(desc(n)) %>% 
-    slice(1:100)
-
-# Group states 
-states <- df %>%
-    select(city, stateProvince) %>%
-    group_by(stateProvince) %>%
-    summarise(n = n()) %>%
-    arrange(desc(n))
-
- 
-```
-
-
-
-
