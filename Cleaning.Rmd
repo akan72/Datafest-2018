@@ -26,10 +26,10 @@ df <- sample %>%
 # Create dummy variables for number of reviews 
 
 df$numReviews <- ifelse(is.na(df$numReviews), 0, df$numReviews)
-df$numReviews <- ifelse(df$numReviews > mean(df$numReviews), "many", ifelse(df$numReviews > 0, "few", "none"))
+df$numReviews <- ifelse(df$numReviews > median(df$numReviews), "many", ifelse(df$numReviews > 0, "few", "none"))
 
-df$isFew <- ifelse(df$numReviews == "few", .33, 0)
-df$isMany <- ifelse(df$numReviews == "many", .33, 0)
+df$isFew <- ifelse(df$numReviews == "few", 1, 0)
+df$isMany <- ifelse(df$numReviews == "many", 1, 0)
 
 # Remove outliers for Word Count and Character Length
 df$descriptionWordCount <- ifelse(df$descriptionWordCount > 2.5 * sd(df$descriptionWordCount), median(df$descriptionWordCount), df$descriptionWordCount)
@@ -46,17 +46,37 @@ df <- filter(df, df$date < "2017-10-01")
 df$date <- format(df$date, format = "%m")
 df$date <- as.numeric(df$date)
 
+df$date <- ifelse(df$date == 10, -1, ifelse(df$date == 11, 0 , df$date))
+
 df$jobAgeDays <- ifelse(df$jobAgeDays == 0, 1, df$jobAgeDays)
 df$avgLocalClick <- (df$localClicks)/(df$jobAgeDays)
 
-df$isWinter <- ifelse(df$date <= 3, 0.25, 0)
-df$isSpring <- ifelse(df$date >= 4, ifelse(df$date <= 6, 0.25,0), 0)
-df$isSummer <- ifelse(df$date >= 7, ifelse(df$date <= 9, 0.25,0), 0)
+df$isWinter <- ifelse(df$date <= 3, 1, 0)
+df$isSpring <- ifelse(df$date >= 4, ifelse(df$date <= 6, 1,0), 0)
+df$isSummer <- ifelse(df$date >= 7, ifelse(df$date <= 9, 1,0), 0)
 
 
 # Remove variables that are used to create dummies 
 df <- df %>%
     select(-numReviews, -supervisingJob, -avgOverallRating) %>%
     filter(is.na(normSalary) == F)
+
+
+ragtime <- df %>% 
+    group_by(jobId) %>%
+    summarise(date = max(date),
+              clicks = sum(localClicks),
+              listingDays = median(jobAgeDays)
+              )
+
+rag <- df %>% 
+    select(-localClicks, -avgLocalClick, -jobAgeDays, -date) %>% 
+    left_join()
+
+# one row for every job 
+# median for skewed cols 
+# proportion of 0 click days for each job 
+
+
 
 ```
