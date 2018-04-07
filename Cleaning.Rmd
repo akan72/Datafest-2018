@@ -11,19 +11,47 @@ library(tensorflow)
 ```
 
 ```{r}
-sample <- read_csv("data/sample.csv")
+sample <- read_csv("df/sample.csv")
+salaries <- read_csv("df/salary.csv")
 ```
 
 ```{r}
-# data, companyId, jobID, country, state/city, avgOverallRating, numReviews, normTitleCategory/supervisingJob, length + word count, estimatedSalary, educRequirement, clicks, jobAge 
+# df, companyId, jobID, country, state/city, avgOverallRating, numReviews, normTitleCategory/supervisingJob, length + word count, estimatedSalary, educRequirement, clicks, jobAge 
 
+### DATA CLEANING
 df <- sample %>% 
-    select(date, companyId, jobId, country, stateProvince, city, avgOverallRating, numReviews, normTitleCategory, supervisingJob, descriptionCharacterLength, descriptionWordCount, estimatedSalary, educationRequirement, clicks, jobAgeDays) %>% 
-    filter(country == "US") 
+    select(date, companyId, jobId, country, stateProvince, city, avgOverallRating, numReviews, normTitleCategory, supervisingJob, descriptionCharacterLength, descriptionWordCount, estimatedSalary, educationRequirement, clicks, jobAgeDays, localClicks) %>% 
+    filter(country == "US", stateProvince != "PR", stateProvince != "VI") 
 
 df$numReviews <- ifelse(is.na(df$numReviews), 0, df$numReviews)
-df$numReview <- ifelse(df$numReviews > mean(df$numReviews), "many", ifelse(df$numReviews > 0, "few", "none"))
+df$numReviews <- ifelse(df$numReviews > mean(df$numReviews), "many", ifelse(df$numReviews > 0, "few", "none"))
 
+df$isFew <- ifelse(df$numReviews == "few", .33, 0)
+df$isMany <- ifelse(df$numReviews == "many", .33, 0)
+
+df$descriptionWordCount <- ifelse(df$descriptionWordCount > 2.5 * sd(df$descriptionWordCount), median(df$descriptionWordCount), df$descriptionWordCount)
+
+df$descriptionCharacterLength <- ifelse(df$descriptionCharacterLength > 2.5 * sd(df$descriptionCharacterLength), median(df$descriptionCharacterLength), df$descriptionCharacterLength)
+
+# Normalized Salaries 
+matchIndicies <- match(df$stateProvince, salaries$State)
+df$normSalary <- df$estimatedSalary / salaries[matchIndicies, 2]
+
+# Date formatting
+df$date <- as.Date(df$date)
+df <- filter(df, df$date < "2017-10-01")
+df$date <- format(df$date, format = "%m")
+df$date <- as.numeric(df$date)
+
+df$jobAgeDays <- ifelse(df$jobAgeDays == 0, 1, df$jobAgeDays)
+df$avgLocalClick <- (df$localClicks)/(df$jobAgeDays)
+
+df$isWinter <- ifelse(df$date <= 3, 0.25, 0)
+df$isSpring <- ifelse(df$date >= 4, ifelse(df$date <= 6, 0.25,0), 0)
+df$isSummer <- ifelse(df$date >= 7, ifelse(df$date <= 9, 0.25,0), 0)
+
+df <- df %>%
+    select(-numReviews, -supervisingJob, -avgOverallRating)
 
 ```
 
