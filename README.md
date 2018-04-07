@@ -5,7 +5,7 @@ We want to use unsupervised learning methods such as K-means clustering and Prin
 
 Possible ideas: Can calculate the mean of all jobs posted on the same day.  Count how many days the job goes with 0 clicks. 
 
-We initially drew a random sample of 1,000,000 observations. We made some variables modifications and pre-processing the data.
+We initially drew a random sample of 500,000 observations. We made some variables modifications and pre-processing the data.
 
 # Variable Assumptions
 **jobId**
@@ -69,3 +69,9 @@ We changed 0 values in jobAgeDay to 1. We are dividing the localclick by jobAgeD
 **Supervising & License**
 We changed the NA values to 0.
 
+## Aggregating the Data
+We need to normalize every numeric variable.
+
+## Machine Learning Methods
+* K-means Clustering -- The Elbow Method
+* Supervised Learning (if time permitting)
