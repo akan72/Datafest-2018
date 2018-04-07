@@ -1,11 +1,10 @@
 ---
 title: "Modeling"
-author: "Alex Kan -lexokan"
+author: "Alex Kan, Ishan Shah, Katherine Wang, Jessica Ho, Svetak Sundhar"
 date: "April 7, 2018"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 ```
 

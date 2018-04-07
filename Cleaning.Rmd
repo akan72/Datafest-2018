@@ -1,6 +1,6 @@
 ---
 title: "Cleaning"
-author: "Alex Kan -lexokan"
+author: "Alex Kan, Ishan Shah, Katherine Wang, Jessica Ho, Svetak Sundhar"
 date: "April 7, 2018"
 output: html_document
 ---
