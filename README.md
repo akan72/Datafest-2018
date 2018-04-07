@@ -10,21 +10,21 @@ We filtered the data from October 1st, 2016 to September 30th, 2017.
 We divided the year into 4 seasons:
 
 For fall:
--October
--November
--December 
+*October
+*November
+*December 
 
 For winter:
--January
--February
--March
+*January
+*February
+*March
 
 For spring:
--April
--May
--June 
+*April
+*May
+-*June 
 
 For summer:
--July
--August
--September.
+*July
+*August
+*September.
