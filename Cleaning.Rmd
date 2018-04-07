@@ -5,11 +5,51 @@ date: "April 7, 2018"
 output: html_document
 ---
 
+```{r}
+library(tidyverse)
+library(tensorflow)
+```
+
+```{r}
+sample <- read_csv("data/sample.csv")
+```
+
+```{r}
+# data, companyId, jobID, country, state/city, avgOverallRating, numReviews, normTitleCategory/supervisingJob, length + word count, estimatedSalary, educRequirement, clicks, jobAge 
+
+df <- sample %>% 
+    select(date, companyId, jobId, country, stateProvince, city, avgOverallRating, numReviews, normTitleCategory, supervisingJob, descriptionCharacterLength, descriptionWordCount, estimatedSalary, educationRequirement, clicks, jobAgeDays) %>% 
+    filter(country == "US") 
+
+df$numReviews <- ifelse(is.na(df$numReviews), 0, df$numReviews)
+df$numReview <- ifelse(df$numReviews > mean(df$numReviews), "many", ifelse(df$numReviews > 0, "few", "none"))
 
 
-Katherine
+```
+
+
+
 
 ```{r}
 
+# Get top 100 cities 
+cities <- df %>%
+    select(city, stateProvince) %>%
+    group_by(city) %>%
+    summarise(n = n()) %>%
+    arrange(desc(n)) %>% 
+    slice(1:100)
+
+# Group states 
+states <- df %>%
+    select(city, stateProvince) %>%
+    group_by(stateProvince) %>%
+    summarise(n = n()) %>%
+    arrange(desc(n))
+
+ 
 ```
+
+
+
 
