@@ -37,8 +37,9 @@ df$descriptionWordCount <- ifelse(df$descriptionWordCount > 2.5 * sd(df$descript
 df$descriptionCharacterLength <- ifelse(df$descriptionCharacterLength > 2.5 * sd(df$descriptionCharacterLength), median(df$descriptionCharacterLength), df$descriptionCharacterLength)
 
 # Create Normalized Salaries
-matchIndicies <- match(df$stateProvince, salaries$State)
-df$normSalary <- df$estimatedSalary / salaries[matchIndicies, 2]
+colnames(salaries) <- c("stateProvince", "avgSalary")
+df <- merge(df, salaries, by = "stateProvince")
+df$normSalary <- df$estimatedSalary / df$avgSalary
 
 # Date formatting, add season dummy variables 
 df$date <- as.Date(df$date)
@@ -55,28 +56,28 @@ df$isWinter <- ifelse(df$date <= 3, 1, 0)
 df$isSpring <- ifelse(df$date >= 4, ifelse(df$date <= 6, 1,0), 0)
 df$isSummer <- ifelse(df$date >= 7, ifelse(df$date <= 9, 1,0), 0)
 
-
 # Remove variables that are used to create dummies 
 df <- df %>%
     select(-numReviews, -supervisingJob, -avgOverallRating) %>%
     filter(is.na(normSalary) == F)
 
-
-ragtime <- df %>% 
+temp1 <- df %>% 
     group_by(jobId) %>%
     summarise(date = max(date),
               clicks = sum(localClicks),
               listingDays = median(jobAgeDays)
               )
 
-rag <- df %>% 
-    select(-localClicks, -avgLocalClick, -jobAgeDays, -date) %>% 
-    left_join()
+temp2 <- df %>% 
+    select(-localClicks, -avgLocalClick, -jobAgeDays, -date) 
+
+temp2 <- temp2[!duplicated(temp2$jobId), ]
+
+df <- merge(temp1, temp2, by = "jobId")
+
 
 # one row for every job 
 # median for skewed cols 
 # proportion of 0 click days for each job 
-
-
 
 ```
