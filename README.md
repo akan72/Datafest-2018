@@ -1,7 +1,7 @@
 ## Datafest-2018
 
 # Mission Statement
-We want to use K-means clustering (unsupervised learning) to see if anything cool happens.
+We want to use unsupervised learning methods such as K-means clustering and Principal Component Analysis (PCA) to see if anything cool happens.
 
 We initially drew a random sample of 1,000,000 observations. We made some variables modifications and pre-processing the data.
 
@@ -18,22 +18,22 @@ If the value is 0, then both dummy variables are 0.
 We filtered the data from October 1st, 2016 to September 30th, 2017. 
 We divided the year into 4 seasons:
 
-For fall:
+For **fall**:
 * October
 * November
 * December 
 
-For winter:
+For **winter**:
 * January
 * February
 * March
 
-For spring:
+For **spring**:
 * April
 * May
 * June 
 
-For summer:
+For **summer**:
 * July
 * August
 * September
