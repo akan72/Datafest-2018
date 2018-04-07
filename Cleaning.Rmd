@@ -61,6 +61,7 @@ df <- df %>%
     select(-numReviews, -supervisingJob, -avgOverallRating) %>%
     filter(is.na(normSalary) == F)
 
+# Aggregate data and merge on jobID
 temp1 <- df %>% 
     group_by(jobId) %>%
     summarise(date = max(date),
@@ -81,3 +82,8 @@ df <- merge(temp1, temp2, by = "jobId")
 # proportion of 0 click days for each job 
 
 ```
+
+```{r, eval = F}
+write.csv(df, "temp/cleaned.csv")
+```
+
