@@ -1,5 +1,10 @@
 ## Datafest-2018
 
+# Mission Statement
+We want to use K-means clustering (unsupervised learning) to see if anything cool happens.
+
+We initially drew a random sample of 1,000,000 observations. We made some variables modifications and pre-processing the data.
+
 # Variable Assumptions
 **Word Count & Character length** 
 Outliers will be assigned the median value in each variable.
@@ -34,7 +39,7 @@ For summer:
 * September
 
 **estimateSalary**
-We normalized the estimateSalary by dividing salary by its corresponding *State's Per Capita Personal Income.*
+We normalized the estimateSalary by dividing salary by its corresponding *State's Per Capita Personal Income.* We also removed NA values in the estimateSalary.
 
 **Country**
 We filtered out Canada and Germany.
