@@ -4,9 +4,8 @@ author: "Alex Kan -lexokan"
 date: "April 7, 2018"
 output: html_document
 ---
+Jessica
 
 ```{r}
 
 ```
-
-Jessica
