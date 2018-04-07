@@ -11,17 +11,20 @@ library(tensorflow)
 ```
 
 ```{r}
-sample <- read_csv("df/sample.csv")
-salaries <- read_csv("df/salary.csv")
+sample <- read_csv("data/sample.csv")
+salaries <- read_csv("data/salary.csv")
 ```
 
 ```{r}
-# df, companyId, jobID, country, state/city, avgOverallRating, numReviews, normTitleCategory/supervisingJob, length + word count, estimatedSalary, educRequirement, clicks, jobAge 
-
 ### DATA CLEANING
+
+# Select columns, and focus only on continental US
+
 df <- sample %>% 
     select(date, companyId, jobId, country, stateProvince, city, avgOverallRating, numReviews, normTitleCategory, supervisingJob, descriptionCharacterLength, descriptionWordCount, estimatedSalary, educationRequirement, clicks, jobAgeDays, localClicks) %>% 
     filter(country == "US", stateProvince != "PR", stateProvince != "VI") 
+
+# Create dummy variables for number of reviews 
 
 df$numReviews <- ifelse(is.na(df$numReviews), 0, df$numReviews)
 df$numReviews <- ifelse(df$numReviews > mean(df$numReviews), "many", ifelse(df$numReviews > 0, "few", "none"))
@@ -29,15 +32,16 @@ df$numReviews <- ifelse(df$numReviews > mean(df$numReviews), "many", ifelse(df$n
 df$isFew <- ifelse(df$numReviews == "few", .33, 0)
 df$isMany <- ifelse(df$numReviews == "many", .33, 0)
 
+# Remove outliers for Word Count and Character Length
 df$descriptionWordCount <- ifelse(df$descriptionWordCount > 2.5 * sd(df$descriptionWordCount), median(df$descriptionWordCount), df$descriptionWordCount)
 
 df$descriptionCharacterLength <- ifelse(df$descriptionCharacterLength > 2.5 * sd(df$descriptionCharacterLength), median(df$descriptionCharacterLength), df$descriptionCharacterLength)
 
-# Normalized Salaries 
+# Create Normalized Salaries
 matchIndicies <- match(df$stateProvince, salaries$State)
 df$normSalary <- df$estimatedSalary / salaries[matchIndicies, 2]
 
-# Date formatting
+# Date formatting, add season dummy variables 
 df$date <- as.Date(df$date)
 df <- filter(df, df$date < "2017-10-01")
 df$date <- format(df$date, format = "%m")
@@ -50,8 +54,11 @@ df$isWinter <- ifelse(df$date <= 3, 0.25, 0)
 df$isSpring <- ifelse(df$date >= 4, ifelse(df$date <= 6, 0.25,0), 0)
 df$isSummer <- ifelse(df$date >= 7, ifelse(df$date <= 9, 0.25,0), 0)
 
+
+# Remove variables that are used to create dummies 
 df <- df %>%
-    select(-numReviews, -supervisingJob, -avgOverallRating)
+    select(-numReviews, -supervisingJob, -avgOverallRating) %>%
+    filter(is.na(normSalary) == F)
 
 ```
 
