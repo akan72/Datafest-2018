@@ -1,28 +1,32 @@
-# Datafest-2018
+## Datafest-2018
 
-# Assumptions
-Outliers in Word Count and Charater length will be assigned the median value.
+# Variable Assumptions
+**Word Count & Character length** 
+Outliers will be assigned the median value in each variable.
 
-If a value is below the mean in numReviews, it is assigned to dummy variable: few. If above the mean, it is assigned to dummy variable: many. If the value is 0, then both dummy variables are 0.
+**numReviews**
+If a value is below the mean in numReviews, it is assigned to dummy variable: few. 
+If above the mean, it is assigned to dummy variable: many. 
+If the value is 0, then both dummy variables are 0.
 
-** Date variable: **
+**Date variable:**
 We filtered the data from October 1st, 2016 to September 30th, 2017. 
 We divided the year into 4 seasons:
 
 For fall:
-*October
-*November
-*December 
+* October
+* November
+* December 
 
 For winter:
-*January
-*February
-*March
+* January
+* February
+* March
 
 For spring:
-*April
-*May
--*June 
+* April
+* May
+* June 
 
 For summer:
 *July
