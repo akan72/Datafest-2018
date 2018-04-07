@@ -29,9 +29,9 @@ For spring:
 * June 
 
 For summer:
-*July
-*August
-*September.
+* July
+* August
+* September
 
 **estimateSalary**
-We normalized the estimateSalary by dividing the U.S. Per Capita Personal Income by *State.*
+We normalized the estimateSalary by dividing salary by each *State's Per Capita Personal Income.*
