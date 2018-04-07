@@ -34,4 +34,22 @@ For summer:
 * September
 
 **estimateSalary**
-We normalized the estimateSalary by dividing salary by each *State's Per Capita Personal Income.*
+We normalized the estimateSalary by dividing salary by its corresponding *State's Per Capita Personal Income.*
+
+**Country**
+We filtered out Canada and Germany.
+
+**normTitleCategory**
+For blank and uncategorized groups, we used dummy variables. We then grouped these categories into 5 broad categories:
+* Medicine
+* Technology
+* Business
+* Service
+* Blue-collar
+
+**avglocalclick**
+We changed 0 values in jobAgeDay to 1. We are dividing the localclick by jobAgeDays.
+
+**Supervising & License**
+We changed the NA values to 0.
+
