@@ -163,7 +163,15 @@ Cluster 5:
 
 We created proportions of each category in normTitleCategory for each cluster and created a new dataframe to compare each clusters.
 
+# Clustering by Location
+All of the other clusters did not show anything signficiant in regards to location.
+
+**Cluster 2:**  
+  * High: **North Carolina**, Georgia, Arizona
+  * *California is slightly above average* 
+  * Low: Wyoming, North Dakota, South Dakota, Arkansas, Vermont, **Connecticut**
+
 ## Plotting
 Important Variables used as the axes:
-*Salary, Wordsmean, ClicksPerDay
+*Salarymeans, Wordsmean, ClicksPerDaymean
 
