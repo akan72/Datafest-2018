@@ -5,6 +5,160 @@ date: "April 7, 2018"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r}
+library(tidyverse)
 ```
+
+```{r}
+df <- read_csv("temp/cluster_data.csv")
+
+df <- df %>% 
+    select(-X1)
+```
+
+```{r}
+# Elbow Method for finding the optimal number of clusters
+set.seed(123)
+
+# Compute and plot wss for k = 1 to k = 10
+k.max <- 10
+wss <- sapply(1:k.max, 
+              function(k){kmeans(df[, 2:9], k, nstart = 25)$tot.withinss})
+
+plot(1:k.max, wss,
+     type="b", pch = 19, frame = FALSE, 
+     xlab="Number of clusters K",
+     ylab="Total within-clusters sum of squares")
+
+```
+
+```{r}
+clusterTry <- kmeans(df[, 2:9], 5, nstart = 25)
+
+df_cluster <- cbind(df, clusterTry$cluster) 
+
+colnames(df_cluster)[16] <- "cluster"
+df_cluster$normTitleCategory <- as.factor(df_cluster$normTitleCategory)
+
+numericalSummary <- df_cluster %>% 
+    group_by(cluster) %>% 
+    summarise(salMean = mean(normSalary),
+              clicksMean = mean(clicksPerDay),
+              charMean = mean(descriptionCharacterLength),
+              wordMean = mean(descriptionWordCount),
+              summerMean = mean(isSummer),
+              springMean = mean(isSpring),
+              winterMean = mean(isWinter),
+              reviewsMean = mean(isMany)
+              )
+
+numericalSummary
+
+# cluster 1: char and word
+# cluster 2: salary
+# cluster 3: low character and word counts 
+# cluster 4: not useful
+# cluster 5: clicks
+```
+
+```{r}
+# Proportion tables for each industry
+prop.table(table(df_cluster$normTitleCategory))
+
+c1 <- df_cluster %>% 
+    filter(cluster == 1)
+
+c2 <- df_cluster %>% 
+    filter(cluster == 2)
+
+c3 <- df_cluster %>% 
+    filter(cluster == 3)
+
+c4 <- df_cluster %>% 
+    filter(cluster == 4)
+
+c5 <- df_cluster %>% 
+    filter(cluster == 5)
+
+table1 <- prop.table(table(c1$normTitleCategory))
+table2 <- prop.table(table(c2$normTitleCategory))
+table3 <- prop.table(table(c3$normTitleCategory))
+table4 <- prop.table(table(c4$normTitleCategory))
+table5 <- prop.table(table(c5$normTitleCategory))
+
+propTotal <- as.data.frame(cbind(table1, table2, table3, table4, table5)) * 100
+
+propTotal$totalDist <- prop.table(table(df_cluster$normTitleCategory)) * 100
+
+relativeProp <- propTotal
+
+relativeProp$table1 <- propTotal$table1 / propTotal$totalDist
+relativeProp$table2 <- propTotal$table2 / propTotal$totalDist
+relativeProp$table3 <- propTotal$table3 / propTotal$totalDist
+relativeProp$table4 <- propTotal$table4 / propTotal$totalDist
+relativeProp$table5 <- propTotal$table5 / propTotal$totalDist
+
+```
+
+```{r}
+# Cluster Summary for Categories
+
+table1 <- prop.table(table(c1$normTitleCategory))
+table2 <- prop.table(table(c2$normTitleCategory))
+table3 <- prop.table(table(c3$normTitleCategory))
+table4 <- prop.table(table(c4$normTitleCategory))
+table5 <- prop.table(table(c5$normTitleCategory))
+
+propTotal <- as.data.frame(cbind(table1, table2, table3, table4, table5)) * 100
+
+propTotal$totalDist <- prop.table(table(df_cluster$normTitleCategory)) * 100
+
+relativeProp <- propTotal
+
+relativeProp$table1 <- propTotal$table1 / propTotal$totalDist
+relativeProp$table2 <- propTotal$table2 / propTotal$totalDist
+relativeProp$table3 <- propTotal$table3 / propTotal$totalDist
+relativeProp$table4 <- propTotal$table4 / propTotal$totalDist
+relativeProp$table5 <- propTotal$table5 / propTotal$totalDist
+
+```
+
+```{r}
+propTotal %>% 
+    arrange(desc(totalDist))
+```
+
+```{r, eval = F}
+write.csv(numericalSummary, "temp/clusterSummary.csv")
+```
+
+```{r}
+# Cluster Summaries by State
+
+table1 <- prop.table(table(c1$stateProvince))
+table2 <- prop.table(table(c2$stateProvince))
+table3 <- prop.table(table(c3$stateProvince))
+table4 <- prop.table(table(c4$stateProvince))
+table5 <- prop.table(table(c5$stateProvince))
+
+propTotalState <- as.data.frame(cbind(table1, table2, table3, table4, table5)) * 100
+
+propTotalState$totalDist <- prop.table(table(df_cluster$stateProvince)) * 100
+
+relativeProp <- propTotalState
+
+relativeProp$table1 <- propTotalState$table1 / propTotalState$totalDist
+relativeProp$table2 <- propTotalState$table2 / propTotalState$totalDist
+relativeProp$table3 <- propTotalState$table3 / propTotalState$totalDist
+relativeProp$table4 <- propTotalState$table4 / propTotalState$totalDist
+relativeProp$table5 <- propTotalState$table5 / propTotalState$totalDist
+```
+
+```{r, eval = F}
+write.csv(numericalSummary, "temp/clusterSummaryCity.csv")
+
+```
+
+
+
 
