@@ -1,7 +1,7 @@
 ### Datafest-2018
 
 # Mission Statement
-We want to use unsupervised learning methods such as **K-means clustering** to see if anything naturally groups by normTitleCategory. We will aggregate the data by first grouping by jobIds since there are multiple job listings. We want every row to be one *UNIQUE* job.  
+We want to use unsupervised learning methods such as **K-means clustering** to see if anything naturally groups in normTitleCategory. We will aggregate the data by first grouping by jobIds since there are multiple job listings. We want every row to be one *UNIQUE* job.  
 
 
 We initially drew a random sample of 500,000 observations. We made some variables modifications and pre-processed the data.
@@ -27,12 +27,12 @@ For **fall**:
 * November
 * December 
 
-For **winter**:
+For **winter**: (iswinter)
 * January
 * February
 * March
 
-For **spring**:
+For **spring**: (
 * April
 * May
 * June 
@@ -42,7 +42,7 @@ For **summer**:
 * August
 * September
 
-**estimateSalary**
+**normSalary**
 We normalized the estimateSalary by dividing salary by its corresponding *State's Per Capita Personal Income.* We also removed NA values in the estimateSalary.
 
 **Country**
@@ -60,14 +60,23 @@ For blank and uncategorized groups, we used dummy variables. We then grouped the
 We will use the median value of jobAgeDays for the same job listings.
 
 **clicks**
-We will sum all of the clicks from all of the same job listings.
+We will sum all of the clicks from all of the same job listings. It is a highly skewed right variable.
+
+**clicksPerDay**
+A new variable we created by dividing clicks.y by its corresponding day. We normalized *clicksPerDay* by using the *fourth root*, since it was the most skewed-right variable we had.
 
 **Supervising & License**
 We changed the NA values to 0.
 
 ## Aggregating the Data
-We need to normalize every numeric variable. We normalized *clicks* by using cubed root, since it was the most skewed-right variable we had. For the remaining numeric variables, we used ______ some function add here pls, except for the binary variables.
+We need to normalize every numeric variable by using the scale function, except for our binary variables. We normalized descriptionCharacterLength and description WordCount, clickPerDay, normSalary.
+
+# R libraries used
+* dplyr
+* tidyverse
+* ggplot2
 
 ## Machine Learning Methods
 * K-means Clustering -- The Elbow Method
-* Principal Component Analysis
+  -We clustered with characterlength, word count, is many, normsalary, iswinter, isspring, issummer, clicks per day.
+  -stateprovince, country, city, normtitlecategory, educationrequirement, companyId.
