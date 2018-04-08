@@ -17,14 +17,16 @@ df <- read_csv("temp/clusterSummary.csv") %>%
 
 ```{r}
 # salary, wordsmean, clicksmean
+
 p <- plot_ly(df, x = ~salMean, y = ~clicksMean, z = ~wordMean, color = ~cluster,
              colors = c("#99badd", "#006400", "#ff0000", "#ffa500", "#000000"),
              name = df$cluster
              ) %>%
     add_markers() %>%
     layout(title = "Numerical Variable Clusters", 
-           scene = list(xaxis = list(title = 'Mean Salary'),
-                     yaxis = list(title = 'Mean Number of Clicks'),
-                     zaxis = list(title = 'Mean Number of Words'))           )
+           scene = list(xaxis = list(title = 'Salary'),
+                     yaxis = list(title = 'Clicks'),
+                     zaxis = list(title = 'Words')),
+           showlegend = F)
 p
 ```
