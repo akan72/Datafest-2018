@@ -18,7 +18,7 @@ If a value is below the mean in numReviews, it is assigned to dummy variable: *f
 If above the mean, it is assigned to dummy variable: *many*. 
 If the value is 0, then *both dummy variables are 0.*
 
-**Date variable:**
+**Date:**
 We filtered the data from October 1st, 2016 to September 30th, 2017. We changed October 2016 dates to -1 and November 2016 dates to 0. We will use the latest date of the job posting (max). We plan to assign certain weights when we cluster. 
 We divided the year into 4 seasons (binary variables: 0 or 1):
 
@@ -32,12 +32,12 @@ For **winter**: (iswinter)
 * February
 * March
 
-For **spring**: (
+For **spring**: (isSpring)
 * April
 * May
 * June 
 
-For **summer**:
+For **summer**: (isSummer)
 * July
 * August
 * September
@@ -78,5 +78,92 @@ We need to normalize every numeric variable by using the scale function, except 
 
 ## Machine Learning Methods
 * K-means Clustering -- The Elbow Method
-  -We clustered with characterlength, word count, is many, normsalary, iswinter, isspring, issummer, clicks per day.
-  -stateprovince, country, city, normtitlecategory, educationrequirement, companyId.
+
+#Clustering
+We clustered with characterlength, word count, isMany, normsalary, iswinter, isspring, issummer, clicksPerDay. After performing the elbow method to determine an optimal (k) number of clusters, k=5 was found to be optimal.
+
+# Initial analysis:
+We also computed relative proportions for each industry.
+
+Cluster 1:
+* **Characterlength and wordcount** seemed to be the most important -  more service industry versus tech. However, there is nothing super significant
+* Most common industries: 
+  1. sales
+  2. retail
+  3. service
+* Least common industries: 
+  1. techsoftware
+  2. meddental
+  3. meddr
+
+Cluster 2:
+* **Salary** seemed to be the most important - high-skilled jobs 
+* Most 5 common industries: 
+  1. accounting
+  2. architecture
+  3. engineering(engchem, engelectric, engid, engmech)
+  4. finance
+  5. install
+  6. meddr
+  7. project
+  8. techsoftware
+* Least 5 common industry: 
+  1. childcare
+  2. food
+  3. personal
+  4. retail
+  5. warehouse
+
+Cluster 3
+* **Low** characterlengths and wordcount
+* Most 5 common industries: 
+  1. veterinary
+  2. sanitation
+  3. driver
+  4. personal
+  5. science
+  6. warehouse
+* Low 5 common industries:
+  1. finance
+  2. marketing
+  3. military
+  4. socialscience
+  5. transport
+
+Cluster 4:
+* not useful -- *average*
+* Most common industries:
+  1. admin
+  2. agriculture
+  3. care
+  4. customer
+  5. hospitality
+  6. service
+* Low common industries: 
+1. childcare
+2. engchem
+3. engid
+4. techinfo
+
+Cluster 5:
+* **clicks** seemed to be the most important
+* Most 5 common industries: 
+  1. accounting
+  2. childcare
+  3. customer
+  4. driver
+  5. service
+  6. tech software
+* Low 5 common industries: 
+  1. aviation
+  2. agriculture
+  3. engchem
+  4. mining
+  5. military
+
+We created proportions of each category in normTitleCategory for each cluster and created a new dataframe to compare each clusters.
+
+## Plotting
+Important Variables used as the axes:
+*Salary, Wordsmean, ClicksPerDay
+
