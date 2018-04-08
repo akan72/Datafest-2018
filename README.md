@@ -1,7 +1,7 @@
 ### Datafest-2018
 
 # Mission Statement
-We want to use unsupervised learning methods such as **K-means clustering and Principal Component Analysis (PCA)** to see if anything cool happens. We want to use PCA first to reduce the dimensions and then use K-means clustering. We will aggregate the data by first grouping by jobIds since there are multiple job listings. We want every row to be one *UNIQUE* job.  
+We want to use unsupervised learning methods such as **K-means clustering** to see if anything naturally groups by normTitleCategory. We will aggregate the data by first grouping by jobIds since there are multiple job listings. We want every row to be one *UNIQUE* job.  
 
 
 We initially drew a random sample of 500,000 observations. We made some variables modifications and pre-processed the data.
