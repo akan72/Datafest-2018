@@ -6,6 +6,83 @@ output: html_document
 ---
 
 ```{r}
-sup bro 
+library(tidyverse)
+```
+
+```{r}
+sample <- read_csv("data/sample.csv")
+salaries <- read_csv("data/salary.csv")
+```
+
+```{r}
+### DATA CLEANING
+
+# Select columns, and focus only on continental US
+
+df <- sample %>% 
+    select(date, companyId, jobId, country, stateProvince, city, avgOverallRating, numReviews, normTitleCategory, supervisingJob, descriptionCharacterLength, descriptionWordCount, estimatedSalary, educationRequirement, clicks, jobAgeDays, localClicks) %>% 
+    filter(country == "US", stateProvince != "PR", stateProvince != "VI") 
+
+# Create dummy variables for number of reviews 
+
+df$numReviews <- ifelse(is.na(df$numReviews), 0, df$numReviews)
+df$numReviews <- ifelse(df$numReviews > median(df$numReviews), "many", ifelse(df$numReviews > 0, "few", "none"))
+
+df$isFew <- ifelse(df$numReviews == "few", 1, 0)
+df$isMany <- ifelse(df$numReviews == "many", 1, 0)
+
+# Remove outliers for Word Count and Character Length
+df$descriptionWordCount <- ifelse(df$descriptionWordCount > 2.5 * sd(df$descriptionWordCount), median(df$descriptionWordCount), df$descriptionWordCount)
+
+df$descriptionCharacterLength <- ifelse(df$descriptionCharacterLength > 2.5 * sd(df$descriptionCharacterLength), median(df$descriptionCharacterLength), df$descriptionCharacterLength)
+
+# Create Normalized Salaries
+colnames(salaries) <- c("stateProvince", "avgSalary")
+df <- merge(df, salaries, by = "stateProvince")
+df$normSalary <- df$estimatedSalary / df$avgSalary
+
+# Date formatting, add season dummy variables 
+df$date <- as.Date(df$date)
+df <- filter(df, df$date < "2017-10-01")
+df$date <- format(df$date, format = "%m")
+df$date <- as.numeric(df$date)
+
+df$date <- ifelse(df$date == 10, -1, ifelse(df$date == 11, 0 , df$date))
+
+df$jobAgeDays <- ifelse(df$jobAgeDays == 0, 1, df$jobAgeDays)
+df$avgLocalClick <- (df$localClicks)/(df$jobAgeDays)
+
+df$isWinter <- ifelse(df$date <= 3, 1, 0)
+df$isSpring <- ifelse(df$date >= 4, ifelse(df$date <= 6, 1,0), 0)
+df$isSummer <- ifelse(df$date >= 7, ifelse(df$date <= 9, 1,0), 0)
+
+# Remove variables that are used to create dummies 
+df <- df %>%
+    select(-numReviews, -supervisingJob, -avgOverallRating) %>%
+    filter(is.na(normSalary) == F)
+
+temp1 <- df %>% 
+    group_by(jobId) %>%
+    summarise(date = max(date),
+              clicks = sum(localClicks),
+              listingDays = median(jobAgeDays)
+              )
+
+temp2 <- df %>% 
+    select(-localClicks, -avgLocalClick, -jobAgeDays, -date) 
+
+temp2 <- temp2[!duplicated(temp2$jobId), ]
+
+df <- merge(temp1, temp2, by = "jobId")
+
+
+# one row for every job 
+# median for skewed cols 
+# proportion of 0 click days for each job 
+
+```
+
+```{r, eval = F}
+write.csv(df, "temp/cleaned.csv")
 ```
 
