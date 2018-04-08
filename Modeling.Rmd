@@ -152,12 +152,10 @@ relativeProp$table2 <- propTotalState$table2 / propTotalState$totalDist
 relativeProp$table3 <- propTotalState$table3 / propTotalState$totalDist
 relativeProp$table4 <- propTotalState$table4 / propTotalState$totalDist
 relativeProp$table5 <- propTotalState$table5 / propTotalState$totalDist
+
+relativeProp
 ```
 
-```{r, eval = F}
-write.csv(numericalSummary, "temp/clusterSummaryCity.csv")
-
-```
 
 
 
