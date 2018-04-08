@@ -28,7 +28,8 @@ wss <- sapply(1:k.max,
 plot(1:k.max, wss,
      type="b", pch = 19, frame = FALSE, 
      xlab="Number of clusters K",
-     ylab="Total within-clusters sum of squares")
+     ylab="Total within-clusters sum of squares",
+     main="WSS vs. Number of Clusters")
 
 ```
 
