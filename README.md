@@ -91,27 +91,75 @@ Cluster 1:
   1. sales
   2. retail
   3. service
-* Least 5 common industries: techsoftware, meddental, meddr
+* Least common industries: 
+  1. techsoftware
+  2. meddental
+  3. meddr
 
 Cluster 2:
 * **Salary** seemed to be the most important - high-skilled jobs 
-* Most 5 common industries: accounting, architecture, engineering(engchem, engelectric, engid, engmech), finance, install, meddr, project, techsoftware
-* Least 5 common industry: *childcare, food, personal, retail, warehouse*
+* Most 5 common industries: 
+  1. accounting
+  2. architecture
+  3. engineering(engchem, engelectric, engid, engmech)
+  4. finance
+  5. install
+  6. meddr
+  7. project
+  8. techsoftware
+* Least 5 common industry: 
+  1. childcare
+  2. food
+  3. personal
+  4. retail
+  5. warehouse
 
 Cluster 3
 * **Low** characterlengths and wordcount
-* Most 5 common industries: veterinary, sanitation, driver, personal, science, warehouse
-* Low 5 common industries:  finance, marketing, military, socialscience, transport
+* Most 5 common industries: 
+  1. veterinary
+  2. sanitation
+  3. driver
+  4. personal
+  5. science
+  6. warehouse
+* Low 5 common industries:
+  1. finance
+  2. marketing
+  3. military
+  4. socialscience
+  5. transport
 
 Cluster 4:
 * not useful -- *average*
-* Most 5 common industries: admin, agriculture, care, customer, hospitality , service
-* Low 5 common industries: childcare, engchem, engid, techinfo
+* Most common industries:
+  1. admin
+  2. agriculture
+  3. care
+  4. customer
+  5. hospitality
+  6. service
+* Low common industries: 
+1. childcare
+2. engchem
+3. engid
+4. techinfo
 
 Cluster 5:
 * **clicks** seemed to be the most important
-* Most 5 common industries: accounting, childcare, customer, driver, service, tech software
-* Low 5 common industries: aviation, agriculture, engchem, mining, military
+* Most 5 common industries: 
+  1. accounting
+  2. childcare
+  3. customer
+  4. driver
+  5. service
+  6. tech software
+* Low 5 common industries: 
+  1. aviation
+  2. agriculture
+  3. engchem
+  4. mining
+  5. military
 
 We created proportions of each category in normTitleCategory for each cluster and created a new dataframe to compare each clusters.
 
