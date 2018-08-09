@@ -1,4 +1,5 @@
 ### Datafest-2018
+Jessica Ho, Alex Kan, Svetak Sundhar, Ishan Shah, Katherine Wang
 
 # Mission Statement
 We want to use unsupervised learning methods such as **K-means clustering** to see if anything naturally groups in normTitleCategory. We will aggregate the data by first grouping by jobIds since there are multiple job listings. We want every row to be one *UNIQUE* job.  
